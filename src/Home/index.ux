@@ -3,9 +3,11 @@
 
 <template>
   <div class="demo-page">
-    <tabs change="tabBarTurn(index)">
+    <tabs onchange="{{tabBarTurn()}}">
       <tab-content class="group-container">
-          <dreamDetail index="0"></dreamDetail>
+          <div class="dreamList" index="0">
+            <text class="dreamItem" for="{{dreamList}}" onclick="{{routeDetail($item.id)}}">{{$item.aim_name}}</text>
+          </div>
           <dreamList index="1"></dreamList>
           <dreamList index="2"></dreamList>
           <dreamList index="3"></dreamList> 
@@ -36,7 +38,6 @@
   .group-content {
     flex-direction: column;
     flex: 1;
-    position: relative;
   }
   .introduce {
     padding-left: 80px;
@@ -48,12 +49,8 @@
     color: #ffffff;
   }
   .dreamItem{ 
-    position: absolute;
     border: #0faeff;
-    border-left: 1px;
-    border-right: 1px;
-    border-top: 1px;
-    border-bottom: 1px;
+    border-width: 1px;
     border-radius: 100px;
     background-color: #ffffff;
     margin: 10px 20px;
@@ -74,6 +71,8 @@
     background-color:transparent;
   }
   .footer-container-1{
+    border: #eeeeee;
+    border-top-width: 1px;
     background-color:#ffffff;
   }
 </style>
@@ -97,7 +96,6 @@
       this.tabItemList = [].concat(Object.keys(this.dataMap))
       this.tabItemList.forEach(tabItem => {
         this.$set(`selectedIdxMap.${tabItem}`, -1)
-        console.log(tabItem)
       })
   
       this.dreamList=homeData.dreamList_own;
@@ -108,15 +106,15 @@
     routePath (path, params) {
       router.push({ uri: path, params: params })
     },
-    routeDetail () {
-      // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由
-      console.log('打印东西呀！！！！！')
-      // router.push ({
-      //   uri: '/DemoDetail'
-      // })
+    routeDetail (id) {
+      console.log(id);
+      
+      router.push ({
+        uri: 'Modules/Dream'
+      })
     },
-    tabBarTurn(index){
-      this.currentIndex=index;
+    tabBarTurn(option){
+      this.currentIndex=option.index;
     }
   }
 </script>

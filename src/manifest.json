@@ -22,8 +22,8 @@
       "Home": {
         "component": "index"
       },
-      "DemoDetail": {
-        "component": "index"
+      "Modules/Dream": {
+        "component": "dreamDetail"
       },
       "About": {
         "component": "index"
@@ -39,7 +39,7 @@
         "titleBarText": "首页",
         "menu": false
       },
-      "DemoDetail": {
+      "Modules/Dream": {
         "titleBarText": "详情页"
       },
       "About": {
