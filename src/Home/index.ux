@@ -1,18 +1,18 @@
+<import name="dreamList" src="../Modules/Dream/dreamList"></import>
+<import name="dreamDetail" src="../Modules/Dream/dreamDetail"></import>
+
 <template>
   <div class="demo-page">
-    <!-- <text class="title">欢迎进入{{title}}</text> -->
-    <!-- 点击跳转详情页 -->
-    <!-- <input class="btn" type="button" value="跳转到详情页" onclick="routeDetail"/> -->
-    <tabs>
+    <tabs change="tabBarTurn(index)">
       <tab-content class="group-container">
-        <div class="group-content" for="{{tabItem in tabItemList}}">
-          <div class="introduce">
-            <text class="introduce-detail">{{dataMap[tabItem].desc}}</text>
-          </div>
-        </div>
+          <dreamDetail index="0"></dreamDetail>
+          <dreamList index="1"></dreamList>
+          <dreamList index="2"></dreamList>
+          <dreamList index="3"></dreamList> 
+          <dreamList index="4"></dreamList>
       </tab-content>
-      <tab-bar class="footer-container">
-        <text class="tab-text" for="{{tabItemList}}" onclick="routePath(dataMap[$item].path,{})">{{dataMap[$item].name}}</text>
+      <tab-bar class="footer-container {{currentIndex==0?'':'footer-container-1'}}">
+        <text class="tab-text" for="{{tabItemList}}">{{dataMap[$item].name}}</text>
       </tab-bar>
     </tabs>    
   </div>
@@ -26,36 +26,17 @@
     background-image: url(../Common/boom-banner.jpg);
     background-size: cover;
   }
-
   .title {
     font-size: 40px;
     text-align: center;
   }
-
-  .btn {
-    width: 550px;
-    height: 86px;
-    margin-top: 75px;
-    border-radius: 43px;
-    background-color: #09ba07;
-    font-size: 30px;
-    color: #ffffff;
-  }
-
-  /* tab的样式 */
-  .footer-container {
-    height: 120px;
-    border-top-width: 1px;
-    border-color: #bbbbbb;
-    background-color: #ffffff;
-  }
   .group-container {
-    flex: 1;
-    flex-direction: column;
+    height: 100%;
   }
   .group-content {
     flex-direction: column;
     flex: 1;
+    position: relative;
   }
   .introduce {
     padding-left: 80px;
@@ -63,25 +44,53 @@
     margin-bottom: 80px;
     margin-top: 60px;
   }
+  .introduce-detail{
+    color: #ffffff;
+  }
+  .dreamItem{ 
+    position: absolute;
+    border: #0faeff;
+    border-left: 1px;
+    border-right: 1px;
+    border-top: 1px;
+    border-bottom: 1px;
+    border-radius: 100px;
+    background-color: #ffffff;
+    margin: 10px 20px;
+    padding: 8px; 
+    width: 100px;
+    height: 100px; 
+    text-align: center;
+  }
   .tab-text {
+    font-weight: 700;
     text-align: center;
   }
   .tab-text:active {
     color: #0faeff;
   }
+  .footer-container {
+    height: 120px;
+    background-color:transparent;
+  }
+  .footer-container-1{
+    background-color:#ffffff;
+  }
 </style>
 
 <script>
   import router from '@system.router'
-  import {tabsData} from './data'
+  import {tabsData,homeData} from './data'
 
   export default {
     // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
     private: {
-      title: 'boom首页',
+      title: '首页',
       dataMap: tabsData,
       tabItemList: [],
-      selectedIdxMap:{}
+      selectedIdxMap:{},
+      dreamList:[],
+      currentIndex:0,
     },
     onInit() {
       // 初始化tabItemList
@@ -90,13 +99,13 @@
         this.$set(`selectedIdxMap.${tabItem}`, -1)
         console.log(tabItem)
       })
+  
+      this.dreamList=homeData.dreamList_own;
     },
     // selectConFn (tabItem, index) {
     //   this.selectedIdxMap[tabItem] = this.selectedIdxMap[tabItem] === index ? -1 : index
     // },
     routePath (path, params) {
-      console.log(path)
-      console.log('打印东西=====')
       router.push({ uri: path, params: params })
     },
     routeDetail () {
@@ -105,6 +114,9 @@
       // router.push ({
       //   uri: '/DemoDetail'
       // })
+    },
+    tabBarTurn(index){
+      this.currentIndex=index;
     }
   }
 </script>
